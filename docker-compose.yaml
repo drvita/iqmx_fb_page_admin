@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: iqiss_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: iqiss_user
+      POSTGRES_PASSWORD: iqiss_password
+      POSTGRES_DB: iqiss_insight
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+    driver: local
