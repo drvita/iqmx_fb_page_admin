@@ -45,7 +45,7 @@ body {
 
 /* Clases semánticas reutilizables usando @apply */
 .app-background {
-  @apply relative min-h-screen bg-main text-text-main overflow-hidden font-sans transition-colors duration-300;
+  @apply relative min-h-screen bg-main text-text-main overflow-x-clip font-sans transition-colors duration-300;
 }
 
 .header-main {

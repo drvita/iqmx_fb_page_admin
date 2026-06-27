@@ -16,6 +16,7 @@ interface FacebookLoginButtonProps {
   text?: string;
   loggedInText?: string;
   size?: "sm" | "md" | "lg";
+  disabled?: boolean;
 }
 
 export default function FacebookLoginButton({
@@ -23,6 +24,7 @@ export default function FacebookLoginButton({
   text = "Iniciar sesión con Facebook",
   loggedInText = "Ir al Dashboard",
   size = "md",
+  disabled = false,
 }: FacebookLoginButtonProps) {
   const [mounted, setMounted] = useState(false);
   const [sdkLoaded, setSdkLoaded] = useState(false);
@@ -180,7 +182,7 @@ export default function FacebookLoginButton({
 
       <button
         onClick={handleFacebookLogin}
-        disabled={loading}
+        disabled={loading || disabled}
         className={`group relative flex items-center justify-center font-bold text-white shadow-xl bg-gradient-to-r from-[#1877f2] to-[#166fe5] hover:scale-[1.01] transition-all duration-300 hover:shadow-blue-500/25 active:scale-[0.98] border border-blue-400/20 disabled:opacity-50 disabled:pointer-events-none cursor-pointer ${activeSize.btn}`}
       >
         <div className="absolute inset-0 rounded-xl bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
