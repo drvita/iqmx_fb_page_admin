@@ -34,22 +34,6 @@ app.include_router(pages_router)
 
 @app.on_event("startup")
 def on_startup():
-    from sqlalchemy import text
-    try:
-        with engine.begin() as conn:
-            conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS followers INTEGER DEFAULT 0;"))
-            conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS followers_change DOUBLE PRECISION DEFAULT 0.0;"))
-            conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS reach INTEGER DEFAULT 0;"))
-            conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS reach_change DOUBLE PRECISION DEFAULT 0.0;"))
-            conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS engagement INTEGER DEFAULT 0;"))
-            conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS engagement_change DOUBLE PRECISION DEFAULT 0.0;"))
-            conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS new_posts_count INTEGER DEFAULT 0;"))
-            conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS new_posts_change INTEGER DEFAULT 0;"))
-            conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS last_sync_at TIMESTAMP WITHOUT TIME ZONE;"))
-            conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS category VARCHAR(100);"))
-    except Exception as db_err:
-        logger.warning(f"[DB MIGRATION WARNING] Failed to alter table facebook_pages: {str(db_err)}")
-    
     Base.metadata.create_all(bind=engine)
 
 @app.get("/")
