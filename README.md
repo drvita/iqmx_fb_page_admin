@@ -127,6 +127,37 @@ Si eres un desarrollador del equipo o un **agente de codificación de IA (como G
 
 ---
 
+## 🐳 Despliegue en Producción (Coolify)
+
+Este proyecto está completamente optimizado para ser desplegado en **Coolify** de manera directa utilizando el archivo [docker-compose.yaml](file:///Users/laclavees12345/code/iqissmexico/fb_page_admin/docker-compose.yaml) de la raíz:
+
+1. **Crear Recursos en Coolify**:
+   - Agrega un nuevo servicio o recurso de tipo **Docker Compose** en Coolify.
+   - Vincula tu repositorio Git con la rama de producción (`main`).
+2. **Base de Datos**:
+   - Crea un recurso de base de datos **PostgreSQL** independiente en Coolify para mayor resiliencia y aislamiento.
+3. **Variables de Entorno**:
+   - Copia el contenido de [.env.example](file:///Users/laclavees12345/code/iqissmexico/fb_page_admin/.env.example) y configúralo en la pestaña **Environment Variables** en Coolify.
+   - Asegúrate de actualizar los valores de conexión de la base de datos (`DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`) apuntando a la base de datos creada en el paso anterior.
+4. **Construcción y Puertos**:
+   - Coolify procesará el archivo `docker-compose.yaml` construyendo los servicios `api/Dockerfile` (puerto 8000) y `frontend/Dockerfile` (puerto 3000).
+   - En la sección de configuración de Coolify para cada servicio, asigne los puertos de destino internos (`8000` para `api`, `3000` para `frontend`) y asocie sus respectivos dominios públicos.
+
+---
+
+## 📦 Desarrollo con Docker Local
+
+Si deseas iniciar la base de datos PostgreSQL localmente en un contenedor Docker para el flujo de desarrollo:
+
+1. Asegúrate de tener configurado tu archivo `.env` o `.env.local`.
+2. Ejecuta el archivo de configuración local:
+   ```bash
+   docker compose -f docker-compose.local.yaml up -d
+   ```
+3. Esto levantará un contenedor de Postgres en el puerto `5432` con persistencia de datos local.
+
+---
+
 ## 👥 Créditos y Autoría
 
 - **Desarrollador Principal**: Salvador Glez
