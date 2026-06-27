@@ -1,5 +1,5 @@
 services:
-  api:
+  insights-api:
     build:
       context: ./api
       dockerfile: Dockerfile
@@ -26,6 +26,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     environment:
+      - API_URL=${API_URL}
       - NEXT_PUBLIC_FB_APP_ID=${NEXT_PUBLIC_FB_APP_ID}
       - NEXT_PUBLIC_FB_API_VERSION=${NEXT_PUBLIC_FB_API_VERSION}
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
