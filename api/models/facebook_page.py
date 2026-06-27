@@ -10,6 +10,7 @@ class FacebookPage(Base):
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     fb_page_id = Column(String(100), unique=True, nullable=False, index=True)
     name = Column(String(100), nullable=False)
+    category = Column(String(100), nullable=True)
     page_access_token = Column(Text, nullable=False)  # Indefinite Page Access Token
     is_monitored = Column(Boolean, default=True, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)

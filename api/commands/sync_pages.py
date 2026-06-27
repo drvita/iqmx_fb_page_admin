@@ -10,6 +10,8 @@ import api.models as db_models
 from api.helpers.sync import sync_page_data
 
 logging.basicConfig(level=logging.INFO)
+from api.helpers.logging_config import setup_logging_sanitization
+setup_logging_sanitization()
 logger = logging.getLogger("iqiss_insight_sync_command")
 
 def run_sync():

@@ -1,0 +1,7 @@
+{
+  "min_posts_28_days": 20,
+  "min_post_age_days": 2,
+  "min_post_engagement_rate": 0.01,
+  "max_allowed_followers_decline_pct": -2.0,
+  "max_allowed_engagement_decline_pct": -10.0
+}

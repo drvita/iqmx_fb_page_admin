@@ -7,6 +7,8 @@ from api.helpers.auth import hash_password
 
 # Logger configuration
 logging.basicConfig(level=logging.INFO)
+from api.helpers.logging_config import setup_logging_sanitization
+setup_logging_sanitization()
 logger = logging.getLogger("iqiss_insight_db_seeder")
 
 def seed_database():
@@ -76,7 +78,7 @@ def seed_database():
             # Associate admin with both 'admin' and 'user' roles
             admin.roles.append(seeded_roles["admin"])
             admin.roles.append(seeded_roles["user"])
-            logger.info(f"Seeded Admin User: {admin_email} with password '{plain_password}'")
+            logger.info(f"Seeded Admin User: {admin_email}")
         else:
             logger.info(f"Admin User '{admin_email}' already exists.")
 
@@ -95,7 +97,7 @@ def seed_database():
             
             # Associate user with 'user' role
             user.roles.append(seeded_roles["user"])
-            logger.info(f"Seeded Normal User: {user_email} with password '{plain_password}'")
+            logger.info(f"Seeded Normal User: {user_email}")
         else:
             logger.info(f"Normal User '{user_email}' already exists.")
 

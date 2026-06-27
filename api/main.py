@@ -1,3 +1,11 @@
+import logging
+from api.helpers.logging_config import setup_logging_sanitization
+
+# Setup log sanitization before importing other modules
+setup_logging_sanitization()
+
+logger = logging.getLogger("fb_page_admin_api.main")
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.db.database import engine, get_db, Base
@@ -38,8 +46,9 @@ def on_startup():
             conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS new_posts_count INTEGER DEFAULT 0;"))
             conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS new_posts_change INTEGER DEFAULT 0;"))
             conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS last_sync_at TIMESTAMP WITHOUT TIME ZONE;"))
+            conn.execute(text("ALTER TABLE facebook_pages ADD COLUMN IF NOT EXISTS category VARCHAR(100);"))
     except Exception as db_err:
-        print(f"[DB MIGRATION WARNING] Failed to alter table facebook_pages: {str(db_err)}")
+        logger.warning(f"[DB MIGRATION WARNING] Failed to alter table facebook_pages: {str(db_err)}")
     
     Base.metadata.create_all(bind=engine)
 

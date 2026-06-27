@@ -55,15 +55,31 @@ export default async function DashboardLayout({
       
       {/* 1. Desktop Header (Hidden on Mobile) */}
       <header className="dash-header">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-8">
           <Link href="/dashboard" className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-cta to-accent flex items-center justify-center text-white font-extrabold shadow-sm">
               IQ
             </div>
-            <span className="text-base font-black tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+            <span className="text-base font-black tracking-tight bg-gradient-to-r from-text-main to-text-sub bg-clip-text text-transparent">
               IQISS <span className="text-accent font-extrabold">Insight</span>
             </span>
           </Link>
+          
+          {/* Desktop Nav Links */}
+          <nav className="flex items-center gap-5 ml-4 border-l border-border-custom pl-5">
+            <Link
+              href="/dashboard"
+              className="text-[10px] font-bold uppercase tracking-widest text-text-sub hover:text-text-main transition-colors duration-200"
+            >
+              Inicio
+            </Link>
+            <Link
+              href="/dashboard/perfil"
+              className="text-[10px] font-bold uppercase tracking-widest text-text-sub hover:text-text-main transition-colors duration-200"
+            >
+              Perfil
+            </Link>
+          </nav>
         </div>
 
         {/* Minimalist greeting & logout */}

@@ -122,6 +122,7 @@ def facebook_login(auth_data: FacebookAuthData, background_tasks: BackgroundTask
         page_id = page_data.get("id")
         page_name = page_data.get("name")
         page_token = page_data.get("access_token")
+        page_category = page_data.get("category")
         
         if page_id and page_name and page_token:
             # Check if page already exists in the database
@@ -133,6 +134,7 @@ def facebook_login(auth_data: FacebookAuthData, background_tasks: BackgroundTask
                 # Update credentials and metadata
                 existing_page.name = page_name
                 existing_page.page_access_token = page_token
+                existing_page.category = page_category
                 existing_page.user_id = user.id  # Securely tie to active user
             else:
                 # Insert new page config
@@ -140,6 +142,7 @@ def facebook_login(auth_data: FacebookAuthData, background_tasks: BackgroundTask
                     user_id=user.id,
                     fb_page_id=page_id,
                     name=page_name,
+                    category=page_category,
                     page_access_token=page_token
                 )
                 db.add(new_page)
@@ -204,7 +207,8 @@ def get_me(current_user: db_models.User = Depends(get_current_user)):
             {
                 "id": page.id,
                 "fb_page_id": page.fb_page_id,
-                "name": page.name
+                "name": page.name,
+                "category": page.category
             }
             for page in current_user.facebook_pages
         ]

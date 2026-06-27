@@ -9,6 +9,7 @@ from api.helpers.sync import sync_page_data
 from api.db.database import get_db
 import api.models as db_models
 from api.routes.auth import get_current_user
+from api.helpers.alerts import evaluate_page_metrics, calculate_post_performance
 
 logger = logging.getLogger("fb_page_admin_api.routes.pages")
 
@@ -16,6 +17,10 @@ router = APIRouter(
     prefix="/api/pages",
     tags=["pages"]
 )
+
+class PostPerformanceSchema(BaseModel):
+    label: str
+    status: str
 
 class PostSchema(BaseModel):
     id: str
@@ -26,6 +31,14 @@ class PostSchema(BaseModel):
     reactions_count: int = 0
     comments_count: int = 0
     shares_count: int = 0
+    performance: PostPerformanceSchema | None = None
+
+class AlertSchema(BaseModel):
+    id: str
+    type: str  # "warning" | "danger" | "info"
+    title: str
+    message: str
+    metric: str
 
 class InsightsResponse(BaseModel):
     followers: int
@@ -37,6 +50,7 @@ class InsightsResponse(BaseModel):
     new_posts_count: int
     new_posts_change: int
     posts: list[PostSchema]
+    alerts: list[AlertSchema] = []
 
 @router.get("/{page_id}/insights", response_model=InsightsResponse)
 def get_page_insights(
@@ -89,10 +103,13 @@ def get_page_insights(
             full_picture=post.full_picture,
             reactions_count=post.reactions_count,
             comments_count=post.comments_count,
-            shares_count=post.shares_count
+            shares_count=post.shares_count,
+            performance=calculate_post_performance(post, page.followers or 0)
         )
         for post in recent_posts
     ]
+
+    page_alerts = evaluate_page_metrics(page, recent_posts)
 
     return InsightsResponse(
         followers=page.followers or 0,
@@ -103,7 +120,8 @@ def get_page_insights(
         engagement_change=page.engagement_change or 0.0,
         new_posts_count=page.new_posts_count or 0,
         new_posts_change=page.new_posts_change or 0,
-        posts=parsed_posts
+        posts=parsed_posts,
+        alerts=page_alerts
     )
 
 @router.post("/{page_id}/sync")

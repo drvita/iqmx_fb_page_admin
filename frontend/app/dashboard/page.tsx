@@ -8,6 +8,7 @@ interface FacebookPageInfo {
   id: number;
   fb_page_id: string;
   name: string;
+  category?: string;
 }
 
 interface UserProfile {
@@ -69,15 +70,29 @@ export default async function DashboardPage() {
               <Link
                 key={page.id}
                 href={`/dashboard/${page.id}/fanpage`}
-                className="dash-card-page"
+                className="dash-card-page animate-fade-in"
               >
-                <div className="flex flex-col pr-4">
-                  <span className="text-sm font-bold text-text-main line-clamp-1 leading-snug">
-                    {page.name}
-                  </span>
-                  <span className="text-[9px] text-text-sub font-mono mt-0.5 tracking-wider">
-                    ID: {page.fb_page_id}
-                  </span>
+                <div className="flex items-center gap-3 w-full pr-4">
+                  <img
+                    src={`https://graph.facebook.com/${page.fb_page_id}/picture?type=square`}
+                    alt={page.name}
+                    className="w-10 h-10 rounded-full object-cover border border-border-custom bg-black/10 shrink-0"
+                    loading="lazy"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-sm font-bold text-text-main line-clamp-1 leading-snug">
+                      {page.name}
+                    </span>
+                    {page.category ? (
+                      <span className="text-[9.5px] text-accent font-bold tracking-widest uppercase mt-0.5">
+                        {page.category}
+                      </span>
+                    ) : (
+                      <span className="text-[9px] text-text-sub font-mono mt-0.5 tracking-wider">
+                        Página de Facebook
+                      </span>
+                    )}
+                  </div>
                 </div>
                 
                 {/* Chevron icon pointing right */}
