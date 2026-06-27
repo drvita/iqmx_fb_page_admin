@@ -30,7 +30,7 @@ export default function FacebookLoginButton({
   const [sdkLoaded, setSdkLoaded] = useState(false);
   const [sdkError, setSdkError] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   const router = useRouter();
   const initRef = useRef(false);
 
@@ -80,8 +80,9 @@ export default function FacebookLoginButton({
           }
         },
         {
-          scope: "pages_show_list,pages_read_engagement,pages_manage_posts,pages_manage_engagement",
-        }
+          scope:
+            "email,read_insights,pages_show_list,business_management,pages_read_engagement,pages_read_user_content",
+        },
       );
     }
   };
@@ -97,7 +98,9 @@ export default function FacebookLoginButton({
       });
 
       if (result.success) {
-        console.log("[FRONTEND] Session authorized. Redirecting to dashboard...");
+        console.log(
+          "[FRONTEND] Session authorized. Redirecting to dashboard...",
+        );
         router.push("/dashboard");
       } else {
         console.error("[FRONTEND] Session authorization failed:", result.error);
@@ -135,7 +138,7 @@ export default function FacebookLoginButton({
   // Prevent hydration discrepancies (SSR fallback is standard empty placeholder)
   if (!mounted) {
     return (
-      <div 
+      <div
         className={`bg-white/5 border border-white/10 text-white font-semibold flex items-center justify-center animate-pulse ${activeSize.btn}`}
       >
         Cargando...
@@ -186,15 +189,18 @@ export default function FacebookLoginButton({
         className={`group relative flex items-center justify-center font-bold text-white shadow-xl bg-gradient-to-r from-[#1877f2] to-[#166fe5] hover:scale-[1.01] transition-all duration-300 hover:shadow-blue-500/25 active:scale-[0.98] border border-blue-400/20 disabled:opacity-50 disabled:pointer-events-none cursor-pointer ${activeSize.btn}`}
       >
         <div className="absolute inset-0 rounded-xl bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-        
+
         {loading ? (
           <div className="h-5 w-5 rounded-full border-2 border-white border-t-transparent animate-spin" />
         ) : (
-          <svg className={`fill-white transition-transform duration-300 group-hover:rotate-[3deg] ${activeSize.icon}`} viewBox="0 0 24 24">
+          <svg
+            className={`fill-white transition-transform duration-300 group-hover:rotate-[3deg] ${activeSize.icon}`}
+            viewBox="0 0 24 24"
+          >
             <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
           </svg>
         )}
-        
+
         {loading ? "Conectando..." : text}
       </button>
 
